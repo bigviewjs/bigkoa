@@ -22,7 +22,7 @@ test('.addChild(SubPagelet)', t => {
 test('._exec() return promise', t => {
     var p1 = new Biglet()
     p1.owner = {
-        res : {
+        ctx : {
             render: function(tpl, data){
                 console.log(tpl)
                 console.log(data)
@@ -73,7 +73,7 @@ test('.parse() return promise', t => {
 test('.compile(tpl, data) return promise', t => {
     var p1 = new Biglet()
     p1.owner = {
-        res : {
+        ctx : {
             render: function (tpl, data, cb) {
                 cb(null, tpl + data)
             }
@@ -88,7 +88,7 @@ test('.compile(tpl, data) return promise', t => {
 test('.compile(tpl, data) with reject error', t => {
     var p1 = new Biglet()
     p1.owner = {
-        res : {
+        ctx : {
             render: function (tpl, data, cb) {
                 cb(new Error('i am an error!'), tpl + data)
             }
