@@ -10,14 +10,15 @@ const Utils = require('./utils');
 const PROMISE_RESOLVE = Promise.resolve(true);
 
 module.exports = class BigViewBase extends EventEmitter {
-    constructor(req, res, layout, data) {
+    constructor(ctx, layout, data) {
         super();
         
         this.mode = 'pipeline';
         
         // 缓存express的req和res
-        this.req = req;
-        this.res = res;
+        this.ctx = ctx;
+        this.req = ctx.req;
+        this.res = ctx.res;
 
         // 用于缓存res.write的内容
         this.cache = [];

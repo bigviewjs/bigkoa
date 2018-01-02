@@ -2,24 +2,24 @@
 
 const MyBigView = require('./MyBigView')
 
-module.exports = function (req, res) {
+module.exports = function (ctx, next) {
     
-    var bigpipe = new MyBigView(req, res, 'basic/index', { title: "测试" })
+    var bigpipe = new MyBigView(ctx, 'basic/index', { title: "测试" })
     
     // bigpipe.mode = 'render'
     bigpipe.add(require('./p1'))
     bigpipe.add(require('./p2'))
     
-    if (req.query && req.query.bigview_mode) {
-        bigpipe.mode = req.query.bigview_mode
+    if (ctx.query && ctx.query.bigview_mode) {
+        bigpipe.mode = ctx.query.bigview_mode
     }
     
     // console.log(bigpipe.mode)
     
     // 从this.cookies('bigview_mode') 其次
     // debug("this.cookies = " + req.cookies)
-    if (req.cookies && req.cookies.bigview_mode) {
-        bigpipe.mode = req.cookies.bigview_mode
+    if (ctx.cookies && ctx.cookies.bigview_mode) {
+        bigpipe.mode = ctx.cookies.bigview_mode
     }
 
     console.log( bigpipe.mode)
@@ -27,5 +27,5 @@ module.exports = function (req, res) {
     // bigpipe.preview('aaaa.html')
     // bigpipe.isMock = true
     //  bigpipe.previewFile = 'aaaa.html'
-    bigpipe.start()
+    return bigpipe.start()
 }

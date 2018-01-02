@@ -89,7 +89,7 @@ class Pagelet {
         let self = this;
 
         return new Promise(function (resolve, reject) {
-            self.owner.res.render(tpl, data, function (err, str) {
+            self.owner.ctx.render(tpl, data, function (err, str) {
                 // str => Rendered HTML string
                 if (err) {
                     console.log(err);

@@ -9,8 +9,8 @@ const Utils = require('./utils');
 const PROMISE_RESOLVE = Promise.resolve(true);
 
 class BigView extends BigViewBase {
-    constructor(req, res, layout, data) {
-        super(req, res, layout, data);
+    constructor(ctx, layout, data) {
+        super(ctx, layout, data);
         
         this.debug = process.env.BIGVIEW_DEBUG || false;
         
@@ -115,7 +115,7 @@ class BigView extends BigViewBase {
 
         return new Promise(function(resolve, reject) {
             debug('renderLayout');
-            self.res.render(tpl, data, function(err, str) {
+            self.ctx.render(tpl, data, function(err, str) {
                 if (err) {
                     debug('renderLayout ' + str);
                     Utils.log(err);
