@@ -22,7 +22,7 @@ module.exports = function (ctx, next) {
         bigpipe.mode = ctx.cookies.bigview_mode
     }
 
-    console.log( bigpipe.mode)
+    console.log(bigpipe.mode)
 
     // bigpipe.preview('aaaa.html')
     // bigpipe.isMock = true
