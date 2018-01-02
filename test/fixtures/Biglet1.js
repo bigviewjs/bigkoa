@@ -1,4 +1,4 @@
-const Biglet = require("../../packages/biglet")
+const Biglet = require("biglet")
 
 module.exports = class BigletDemo extends Biglet {
     constructor () {

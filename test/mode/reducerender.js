@@ -1,10 +1,9 @@
 import test from 'ava'
 
 const sinon = require('sinon')
-const Bigview = require("../../packages/bigview")
-const Biglet = require("../../packages/biglet")
-const ModeInstanceMappings = require('../../packages/bigview/mode')
-
+const Bigview = require("../../src")
+const Biglet = require("biglet")
+const ModeInstanceMappings = require('../../src/mode')
 /**
  * 即连续渲染模式reducerender，不写入布局，所有pagelet顺序执行完成，一次写入到浏览器。(当前)
  * 
@@ -15,13 +14,14 @@ const ModeInstanceMappings = require('../../packages/bigview/mode')
  */ 
 
 test('MODE reducerender', t => {
-    let req = {}
-    let res = {
-      render:function(tpl, data){
-        return data
-      }
+  let ctx = {
+    res:{},
+    req:{},
+    render:function(tpl, data){
+      return data
     }
-    let bigview = new Bigview(req, res, 'tpl', {})
+  }
+    let bigview = new Bigview(ctx, 'tpl', {})
 
     let result = []
 

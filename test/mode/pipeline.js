@@ -1,9 +1,9 @@
 import test from 'ava'
 
 const sinon = require('sinon')
-const Bigview = require("../../packages/bigview")
-const Biglet = require("../../packages/biglet")
-const ModeInstanceMappings = require('../../packages/bigview/mode')
+const Bigview = require("../../src")
+const Biglet = require("biglet")
+const ModeInstanceMappings = require('../../src/mode')
 
 /**
  * 随机，先完成的先写入，即pipeline模式(当前)
@@ -15,13 +15,15 @@ const ModeInstanceMappings = require('../../packages/bigview/mode')
  */ 
 
 test('MODE pipeline', t => {
-    let req = {}
-    let res = {
+    
+    let ctx = {
+      res:{},
+    req:{},
       render:function(tpl, data){
         return data
       }
     }
-    let bigview = new Bigview(req, res, 'tpl', {})
+    let bigview = new Bigview(ctx, 'tpl', {})
     bigview.mode = 'pipeline'
 
     let result = []
