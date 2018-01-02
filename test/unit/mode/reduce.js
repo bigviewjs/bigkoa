@@ -1,9 +1,9 @@
 import test from 'ava'
 
 const sinon = require('sinon')
-const Bigview = require("../../src")
+const Bigview = require("../../../src")
 const Biglet = require("biglet")
-const ModeInstanceMappings = require('../../src/mode')
+const ModeInstanceMappings = require('../../../src/mode')
 /**
  * 连续模式reduce：依次连续写入(当前)
  * 

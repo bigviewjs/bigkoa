@@ -1,11 +1,11 @@
 import test from 'ava'
 
-const app = require('../examples/app')
+const app = require('../../examples/app')
 
 const sinon = require('sinon')
-const Bigview = require("../src")
+const Bigview = require("../../src")
 const Biglet = require("biglet")
-const ModeInstanceMappings = require('../src/mode')
+const ModeInstanceMappings = require('../../src/mode')
 
 test('biglet custom payload', t => {
     

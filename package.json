@@ -5,12 +5,14 @@
   "main": "index.js",
   "dependencies": {
     "bluebird": "^3.4.7",
+    "chromedriver": "^2.34.0",
     "debug": "^2.3.3"
   },
   "devDependencies": {
     "ava": "^0.16.0",
     "biglet": "^1.3.14",
     "codecov": "^1.0.1",
+    "cross-spawn": "^5.1.0",
     "ejs": "^2.3.4",
     "koa": "^2.4.1",
     "koa-bodyparser": "^3.2.0",
@@ -18,17 +20,20 @@
     "koa-onerror": "^1.2.1",
     "koa-static": "^3.0.0",
     "lru-cache": "^4.0.2",
+    "nightwatch": "^0.9.19",
     "nyc": "^10.0.0",
     "open": "0.0.5",
+    "selenium-server": "^3.8.1",
     "sinon": "^1.17.7",
     "standard": "^8.4.0",
     "testchunks": "^1.0.1"
   },
   "scripts": {
     "start": "node --trace_gc examples/bin",
-    "test": "./node_modules/.bin/nyc ./node_modules/.bin/ava -v",
+    "test": "./node_modules/.bin/nyc ./node_modules/.bin/ava test/unit -v",
     "report-coverage": "./node_modules/.bin/nyc report --reporter=lcov > coverage.lcov && codecov",
-    "standard": "./node_modules/.bin/standard index.js"
+    "standard": "./node_modules/.bin/standard index.js",
+    "chromedriver": "npm install chromedriver --chromedriver_cdnurl=http://cdn.npm.taobao.org/dist/chromedriver"
   },
   "keywords": [],
   "author": "i5ting",

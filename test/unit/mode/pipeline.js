@@ -1,9 +1,9 @@
 import test from 'ava'
 
 const sinon = require('sinon')
-const Bigview = require("../../src")
+const Bigview = require("../../../src")
 const Biglet = require("biglet")
-const ModeInstanceMappings = require('../../src/mode')
+const ModeInstanceMappings = require('../../../src/mode')
 
 /**
  * 随机，先完成的先写入，即pipeline模式(当前)

@@ -1,11 +1,11 @@
 import test from 'ava'
 
 const sinon = require('sinon')
-const Bigview = require("../../src")
+const Bigview = require("../../../src")
 const Biglet = require("biglet")
-const ModeInstanceMappings = require('../../src/mode')
+const ModeInstanceMappings = require('../../../src/mode')
 /**
- * 即连续渲染模式reducerender，不写入布局，所有pagelet顺序执行完成，一次写入到浏览器。(当前)
+ * 一次渲染模式render：即普通模式，不写入布局，所有pagelet执行完成，一次写入到浏览器。支持搜索引擎，用来支持那些不支持JS的客户端。(当前)
  * 
  * 检查点：
  * 
@@ -13,7 +13,7 @@ const ModeInstanceMappings = require('../../src/mode')
  *  - 2）检查p1和p2的顺序
  */ 
 
-test('MODE reducerender', t => {
+test('MODE render', t => {
   let ctx = {
     res:{},
     req:{},
@@ -22,6 +22,7 @@ test('MODE reducerender', t => {
     }
   }
     let bigview = new Bigview(ctx, 'tpl', {})
+    bigview.mode = 'parallel'
 
     let result = []
 
@@ -60,16 +61,16 @@ test('MODE reducerender', t => {
 
     let startTime = new Date()
     
-    return bigview.getModeInstanceWith('reducerender').execute(pagelets).then(function(){
+    return bigview.getModeInstanceWith('render').execute(pagelets).then(function(){
       let endTime = new Date()
       
       let cost = endTime.getTime() - startTime.getTime()
         
-      t.true(cost > 4000)
+      t.true(cost > 3000)
         
-      // 按照执行顺序算的
-      t.is(result[0], 'p1')
-      t.is(result[1], 'p2')
+      // 按照push顺序算的
+      t.is(result[0], 'p2')
+      t.is(result[1], 'p1')
     })
 })
 

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="0"
+            failures="0"
+            tests="3">
+
+  <testsuite name="KPlayer.test"
+    errors="0" failures="0" hostname="" id="" package="KPlayer.test" skipped="0"
+    tests="3" time="18.03" timestamp="Tue, 02 Jan 2018 02:38:00 GMT">
+  
+    <testcase name="start" classname="KPlayer.test" time="16.62" assertions="1">
+
+    
+    </testcase>
+  
+    <testcase name="test KPlayer" classname="KPlayer.test" time="1.326" assertions="7">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="end" classname="KPlayer.test" time="0.08300" assertions="0">
+    </testcase>
+  
+
+  
+
+  
+  </testsuite>
+</testsuites>
