@@ -1,26 +1,7 @@
 // http://nightwatchjs.org/guide#settings-file
 
-const fs = require('fs');
-const path = require('path');
-
-let srcFolders = ['test/e2e/specs'];
-
-// 如果测试模式是测试插件
-if (process.env.KPLAYER_TEST_MODE === 'plugin_test') {
-    srcFolders = [];
-    const packagesPath = path.resolve(__dirname, '../../packages');
-    const folderList = fs.readdirSync(packagesPath);
-    // 如果是插件目录则添加到srcFolders
-    folderList.forEach(function (item) {
-        if (/plugin/.test(item)) {
-            item = path.resolve(packagesPath, item, 'test/e2e');
-            srcFolders.push(item);
-        }
-    });
-}
-
 module.exports = {
-    'src_folders': srcFolders,
+    'src_folders': ['test/e2e/specs'],
     'output_folder': 'test/e2e/reports',
     'custom_commands_path': ['node_modules/nightwatch-helpers/commands'],
     'custom_assertions_path': ['node_modules/nightwatch-helpers/assertions'],

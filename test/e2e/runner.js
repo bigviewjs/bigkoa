@@ -2,9 +2,9 @@ var path = require('path')
 var http = require('http')
 var spawn = require('cross-spawn')
 
-var app = require('../../build/dev-server')
+const app = require('../../examples/app')
 
-var server = http.createServer(app);
+var server = http.createServer(app.callback());
 
 app.listen(8080)
 
