@@ -1,0 +1,35 @@
+{
+  "name": "bigview-all",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "bluebird": "^3.4.7",
+    "circular-json": "^0.3.1",
+    "debug": "^2.3.3"
+  },
+  "devDependencies": {
+    "ava": "^0.16.0",
+    "co-exec": "^1.0",
+    "codecov": "^1.0.1",
+    "cookie-parser": "^1.4.3",
+    "ejs": "^2.3.4",
+    "express": "^4.13.3",
+    "lerna": "2.0.0-beta.31",
+    "lru-cache": "^4.0.2",
+    "nyc": "^10.0.0",
+    "open": "0.0.5",
+    "sinon": "^1.17.7",
+    "standard": "^8.4.0",
+    "testchunks": "^1.0.1"
+  },
+  "scripts": {
+    "start": "node --trace_gc examples/bin",
+    "test": "./node_modules/.bin/nyc ./node_modules/.bin/ava -v",
+    "report-coverage": "./node_modules/.bin/nyc report --reporter=lcov > coverage.lcov && codecov",
+    "standard": "./node_modules/.bin/standard index.js"
+  },
+  "keywords": [],
+  "author": "i5ting",
+  "license": "MIT"
+}
