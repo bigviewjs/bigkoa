@@ -14,6 +14,7 @@
     "codecov": "^1.0.1",
     "cross-spawn": "^5.1.0",
     "ejs": "^2.3.4",
+    "husky": "^0.14.3",
     "koa": "^2.4.1",
     "koa-bodyparser": "^3.2.0",
     "koa-logger": "^2.0.1",
@@ -30,13 +31,14 @@
     "testchunks": "^1.0.1"
   },
   "scripts": {
+    "start": "node --trace_gc examples/bin",
+    "precommit": "npm test",
     "test:unit": "./node_modules/.bin/nyc ./node_modules/.bin/ava test/unit -v",
     "test:e2e": "node test/e2e/runner.js",
-    "start": "node --trace_gc examples/bin",
     "test": "npm run test:unit && npm run test:e2e",
     "report-coverage": "./node_modules/.bin/nyc report --reporter=lcov > coverage.lcov && codecov",
     "standard": "./node_modules/.bin/standard index.js",
-    "chromedriver": "npm install chromedriver --chromedriver_cdnurl=http://cdn.npm.taobao.org/dist/chromedriver"
+    "chromedriver": "npm install --save-dev chromedriver --chromedriver_cdnurl=http://cdn.npm.taobao.org/dist/chromedriver"
   },
   "keywords": [],
   "author": "i5ting",
