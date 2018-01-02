@@ -1,6 +1,6 @@
 {
-  "name": "biglet",
-  "version": "1.3.14",
+  "name": "bigkoa",
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -8,8 +8,7 @@
   },
   "dependencies": {
     "bluebird": "^3.4.7",
-    "debug": "^2.3.3",
-    "escape-html": "^1.0.3"
+    "debug": "^2.3.3"
   },
   "author": "",
   "license": "ISC"

@@ -1,6 +1,6 @@
 'use strict'
 
-const BigView = require('../../../packages/bigview')
+const BigView = require('../../../packages/bigkoa')
 
 module.exports = class MyBigView extends BigView {
   before () {

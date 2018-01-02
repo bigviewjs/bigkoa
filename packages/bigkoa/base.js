@@ -19,6 +19,7 @@ module.exports = class BigViewBase extends EventEmitter {
         this.ctx = ctx;
         this.req = ctx.req;
         this.res = ctx.res;
+        this.res.render = ctx.render;
 
         // 用于缓存res.write的内容
         this.cache = [];
