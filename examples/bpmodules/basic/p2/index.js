@@ -1,6 +1,7 @@
 'use strict'
 
 const Pagelet = require('biglet')
+const path = require('path')
 
 module.exports = class MyPagelet extends Pagelet {
     constructor () {
@@ -14,14 +15,14 @@ module.exports = class MyPagelet extends Pagelet {
             }
         }
         this.domid = 'pagelet2'
-        this.tpl = 'p2'
+        this.tpl = './p2'
         this.delay = 2000
     }
-    
+
     fetch() {
       return this.sleep(this.delay)
     }
-    
+
     sleep(time) {
       return new Promise((resolve)=> setTimeout(resolve, time))
     }

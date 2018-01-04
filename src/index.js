@@ -9,28 +9,35 @@ const Utils = require('./utils');
 const PROMISE_RESOLVE = Promise.resolve(true);
 
 class BigView extends BigViewBase {
-    constructor(ctx, layout, data) {
-        super(ctx, layout, data);
-        
-        this.debug = process.env.BIGVIEW_DEBUG || false;
-        
-        // 布局文件，在渲染布局前是可以改的
-        this.layout = layout;
+    constructor(ctx, options) {
+        super(ctx, options);
 
-        // 用于为页面模板提供数据
-        // 如果是动态布局会自动注入pagelets
-        this.data = data || {};
+        this.debug = process.env.BIGVIEW_DEBUG || false;
+
+        // 布局文件，在渲染布局前是可以改的
+        this.layout = options.layout;
+
+        // main pagelet
+        this.main = options.main;
 
         // 存放add的pagelets，带有顺序和父子级别
         this.pagelets = [];
 
         this.done = false;
-        
+
         // timeout = 30s
         this.timeout = 30000;
 
         // 默认是pipeline并行模式，pagelets快的先渲染
         // 页面render的梳理里会有this.data.pagelets
+    }
+
+    setMain (main) {
+        this.main = main;
+    }
+
+    setLayout (layout) {
+        this.layout = layout;
     }
 
     _getPageletObj(Pagelet) {
@@ -88,7 +95,7 @@ class BigView extends BigViewBase {
 
         return this.before()
             .then(this.beforeRenderLayout.bind(this))
-            .then(this.renderLayout.bind(this))
+            .then(this.renderLayoutAndMain.bind(this))
             .then(this.afterRenderLayout.bind(this))
             .catch(this.showErrorPagelet.bind(this))
             .then(this.beforeRenderPagelets.bind(this))
@@ -99,7 +106,7 @@ class BigView extends BigViewBase {
                 .catch(Promise.TimeoutError, this.renderPageletstimeoutFn.bind(this))
             .catch(this.processError.bind(this))
     }
-    
+
     before() {
         debug('default before');
         return PROMISE_RESOLVE;
@@ -113,6 +120,10 @@ class BigView extends BigViewBase {
     compile(tpl, data) {
         let self = this;
 
+        // set data pagelets and errorPagelet
+        data.pagelets = self.pagelets;
+        data.errorPagelet = self.errorPagelet;
+
         return new Promise(function(resolve, reject) {
             debug('renderLayout');
             self.ctx.render(tpl, data, function(err, str) {
@@ -123,7 +134,7 @@ class BigView extends BigViewBase {
                 }
                 debug(str);
                 let html = str + Utils.ready(self.debug)
-                
+
                 // 在pipeline模式下会直接写layout到浏览器
                 self.write(html, self.modeInstance.isLayoutWriteImmediately);
                 //html没用到
@@ -132,18 +143,20 @@ class BigView extends BigViewBase {
         })
     }
 
-    renderLayout() {
-        debug("BigView renderLayout");
-
-        // 默认注入pagelets和errorPagelet信息
-        this.data.pagelets = this.pagelets;
-        this.data.errorPagelet = this.errorPagelet;
-
+    renderLayoutAndMain() {
+        let syncArray = [];
         let self = this;
 
-        return self.compile(self.layout, self.data).then(function(str) {
-            return str;
-        })
+        debug("BigView renderLayoutAndMain");
+
+        let layoutPagelet = this._getPageletObj(this.layout);
+        syncArray.push(self.compile(layoutPagelet.tpl, layoutPagelet.data));
+
+        if (this.main) {
+            let mainPagelet = this._getPageletObj(this.main);
+            syncArray.push(self.compile(mainPagelet.tpl, mainPagelet.data));
+        }
+        return Promise.all(syncArray);
     }
 
     renderPagelets() {
@@ -163,7 +176,7 @@ class BigView extends BigViewBase {
             // true will send right now
             let isWriteImmediately = true;
             let html = this.cache.join('');
-            
+
             // 在end时，无论如何都要输出布局
             this.modeInstance.isLayoutWriteImmediately = true
 
@@ -185,7 +198,7 @@ class BigView extends BigViewBase {
         debug('default after');
         return PROMISE_RESOLVE;
     }
-    
+
     renderPageletstimeoutFn(err) {
         Utils.log('timeout in ' + this.timeout + ' ms')
         Utils.log(err)

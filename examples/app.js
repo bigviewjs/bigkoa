@@ -33,21 +33,21 @@ app.use(async (ctx, next) => {
 
 app.use(async (ctx, next) => {
   const start = new Date()
-  
+
   ctx.render = function (tpl, data, cb) {
     var fs = require('fs');
     var read = require('fs').readFileSync;
     var join = require('path').join;
-    
+
     // /Users/youku/workspace/github/bigview-koa/examples/bpmodules/basic/p2/p2
     if (!fs.existsSync(tpl + ".html") ){
       console.log("tpl=" + tpl)
-      var str = read(join(__dirname, './views/' + tpl + '.html'), 'utf8');
+      var str = read(tpl + '.html', 'utf8');
     }else{
       console.log("tpl2=" + tpl)
       var str = read(tpl + '.html', 'utf8');
     }
-    
+
     html = ejs.compile(str)(data);
     cb(null, html)
   }
