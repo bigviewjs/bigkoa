@@ -16,6 +16,7 @@ module.exports = class MyPagelet extends Pagelet {
       }
       this.domid = 'pagelet1'
       this.location = 'pagelet1'
+      this.tpl = path.join(__dirname, 'tpl/index')
       this.delay = 4000
   }
 
