@@ -18,7 +18,7 @@ module.exports = class ParallelMode {
 
 	/**
 	 * execute pagelets'action
-	 * 
+	 *
 	 * @param {any} bigview
 	 * @returns
 	 */
