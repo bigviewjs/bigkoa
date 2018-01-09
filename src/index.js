@@ -1,6 +1,7 @@
 'use strict';
 
 const debug = require('debug')('bigview');
+const Biglet = require('./biglet');
 
 global.Promise = require("bluebird");
 
@@ -9,13 +10,12 @@ const Utils = require('./utils');
 const PROMISE_RESOLVE = Promise.resolve(true);
 
 class BigView extends BigViewBase {
-    constructor(ctx, options) {
+    constructor(ctx, options={}) {
         super(ctx, options);
 
         this.debug = process.env.BIGVIEW_DEBUG || false;
 
-        // 布局文件，在渲染布局前是可以改的
-        this.layout = options.layout;
+        this.layout = options.layout
 
         // main pagelet
         this.main = options.main;
@@ -73,6 +73,7 @@ class BigView extends BigViewBase {
      */
     showErrorPagelet(error) {
         debug(error);
+        console.log(error)
         // reset this.pagelets
         this.pagelets = [this.errorPagelet];
 
@@ -95,7 +96,8 @@ class BigView extends BigViewBase {
 
         return this.before()
             .then(this.beforeRenderLayout.bind(this))
-            .then(this.renderLayoutAndMain.bind(this))
+            .then(this.renderLayout.bind(this))
+            .then(this.renderMain.bind(this))
             .then(this.afterRenderLayout.bind(this))
             .catch(this.showErrorPagelet.bind(this))
             .then(this.beforeRenderPagelets.bind(this))
@@ -143,20 +145,35 @@ class BigView extends BigViewBase {
         })
     }
 
-    renderLayoutAndMain() {
+    renderMain() {
         let syncArray = [];
         let self = this;
 
         debug("BigView renderLayoutAndMain");
 
-        let layoutPagelet = this._getPageletObj(this.layout);
-        syncArray.push(self.compile(layoutPagelet.tpl, layoutPagelet.data));
-
+        // let layoutPagelet = this._getPageletObj(this.layout);
+        // syncArray.push(self.compile(layoutPagelet.tpl, layoutPagelet.data));
+        let mainPagelet = null;
         if (this.main) {
-            let mainPagelet = this._getPageletObj(this.main);
+            mainPagelet = this._getPageletObj(this.main);
             syncArray.push(self.compile(mainPagelet.tpl, mainPagelet.data));
+            return Promise.all([mainPagelet._exec()]);
+        } else {
+            return Promise.resolve(true)
         }
-        return Promise.all(syncArray);
+    }
+
+    renderLayout () {
+        let self = this
+        return new Promise(function(resolve, reject) {
+            self.ctx.render(self.layout.tpl, self.layout.data, function (err, html) {
+                self.write(html, self.modeInstance.isLayoutWriteImmediately);
+                if (err) {
+                    return Promise.reject()
+                }
+                return Promise.resolve()
+            })
+        })
     }
 
     renderPagelets() {
@@ -206,4 +223,4 @@ class BigView extends BigViewBase {
     }
 };
 
-module.exports = BigView;
+module.exports = {BigView, Biglet};
