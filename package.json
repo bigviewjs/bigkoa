@@ -25,21 +25,23 @@
     "lru-cache": "^4.0.2",
     "nightwatch": "^0.9.19",
     "nightwatch-helpers": "^1.2.0",
-    "nyc": "^10.3.2",
+    "nyc": "^10.0.0",
     "open": "0.0.5",
     "selenium-server": "^2.53.1",
     "sinon": "^1.17.7",
-    "standard": "^8.6.0",
-    "testchunks": "^1.0.1"
+    "standard": "^8.4.0",
+    "testchunks": "^1.0.1",
+    "co-exec": "^1.0",
+    "ghooks": "^1.2.4"
   },
   "scripts": {
     "start": "node --trace_gc examples/bin",
     "precommit": "npm run test:unit",
     "test:unit": "./node_modules/.bin/nyc ./node_modules/.bin/ava test/unit -v",
     "test:e2e": "node test/e2e/runner.js",
-    "test": "npm run test:unit && npm run test:e2e",
-    "report-coverage": "./node_modules/.bin/nyc report --reporter=lcov > coverage.lcov && codecov",
-    "standard": "./node_modules/.bin/standard index.js",
+    "test": "nyc ./node_modules/.bin/ava -v",
+    "report-coverage": "nyc report --reporter=lcov > coverage.lcov && codecov",
+    "standard": "standard index.js",
     "chromedriver": "npm install --save-dev chromedriver --chromedriver_cdnurl=http://cdn.npm.taobao.org/dist/chromedriver"
   },
   "keywords": [],
@@ -50,5 +52,10 @@
       "examples",
       "test"
     ]
+  },
+  "config": {
+    "ghooks": {
+      "pre-commit": "npm run standard"
+    }
   }
 }
