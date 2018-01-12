@@ -46,10 +46,8 @@ class BigView extends BigViewBase {
     if (Pagelet.domid && Pagelet.root) {
       pagelet = Pagelet
     } else {
-      pagelet = new Pagelet()
+      pagelet = new Pagelet(this)
     }
-
-    pagelet.owner = this
     pagelet.dataStore = this.dataStore
 
     return pagelet
@@ -122,7 +120,7 @@ class BigView extends BigViewBase {
     let self = this
 
     // set data pagelets and errorPagelet
-    data.pagelets = self.pagelets
+    data.pagelets = self.pagelets || []
     data.errorPagelet = self.errorPagelet
 
     return new Promise(function (resolve, reject) {
@@ -135,7 +133,6 @@ class BigView extends BigViewBase {
         }
         debug(str)
         let html = str + Utils.ready(self.debug)
-
         // 在pipeline模式下会直接写layout到浏览器
         self.write(html, self.modeInstance.isLayoutWriteImmediately)
         // html没用到
@@ -175,8 +172,7 @@ class BigView extends BigViewBase {
 
   renderPagelets () {
     debug('BigView  renderPagelets start')
-    let bigview = this
-    return this.modeInstance.execute(bigview.pagelets)
+    return this.modeInstance.execute(this.pagelets)
   }
 
   end () {
