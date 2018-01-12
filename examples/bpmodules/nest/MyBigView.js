@@ -1,17 +1,14 @@
 'use strict'
 
-const BigView = require('../../../packages/bigview')
+const { BigView } = require('../../../src')
 
 module.exports = class MyBigView extends BigView {
   before () {
-     return new Promise(function(resolve, reject) {
-        setTimeout(function(){
-          resolve(true)
-        }, 0)
+    return new Promise(function (resolve, reject) {
+      setTimeout(function () {
+        resolve(true)
+      }, 0)
     })
   }
 
-  // after () {
-  //
-  // }  
 }

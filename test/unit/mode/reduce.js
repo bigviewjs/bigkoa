@@ -1,28 +1,19 @@
 import test from 'ava'
+import { BigView, Biglet } from '../../../src'
+import ctx from '../fixtures/context'
 
-const sinon = require('sinon')
-const Bigview = require("../../../src")
-const Biglet = require("biglet")
-const ModeInstanceMappings = require('../../../src/mode')
 /**
  * 连续模式reduce：依次连续写入(当前)
- * 
+ *
  * 检查点：
- * 
+ *
  *  - 1) 写入模块，检查cache为空
  *  - 2）检查p1和p2的顺序，p1先显示
  */
 
 test('MODE reduce', t => {
-  let ctx = {
-    res:{},
-    req:{},
-    render: function (tpl, data) {
-      return data
-    }
-  }
-  let bigview = new Bigview(ctx, 'tpl', {})
 
+  let bigview = new BigView(ctx, 'tpl', {})
 
   let result = []
 
@@ -74,6 +65,6 @@ test('MODE reduce', t => {
   })
 })
 
-function sleep(time) {
+function sleep (time) {
   return new Promise((resolve) => setTimeout(resolve, time))
 }

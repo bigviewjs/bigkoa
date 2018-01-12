@@ -1,28 +1,18 @@
 import test from 'ava'
-
-const sinon = require('sinon')
-const Bigview = require("../../../src")
-const Biglet = require("biglet")
-const ModeInstanceMappings = require('../../../src/mode')
+import { BigView, Biglet } from '../../../src'
+import ctx from '../fixtures/context'
 
 /**
  * 随机，all完成之后，立即写入，即parallel模式
- * 
+ *
  * 检查点：
- * 
+ *
  *  - 1) 写入模块，检查cache为空
  *  - 2）检查p1和p2的顺序
  */
 
 test('MODE parallel', t => {
-  let ctx = {
-    res:{},
-    req:{},
-    render: function (tpl, data) {
-      return data
-    }
-  }
-  let bigview = new Bigview(ctx, 'tpl', {})
+  let bigview = new BigView(ctx, 'tpl', {})
 
   let result = []
 
