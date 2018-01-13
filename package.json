@@ -35,10 +35,10 @@
   },
   "scripts": {
     "start": "node --trace_gc examples/bin",
-    "precommit": "npm run test:unit",
+    "precommit": "npm run standard && npm test",
     "test:unit": "./node_modules/.bin/nyc ./node_modules/.bin/ava test/unit -v",
     "test:e2e": "node test/e2e/runner.js",
-    "test": "npm run test:unit",
+    "test": "npm run test:unit && npm run test:e2e",
     "report-coverage": "nyc report --reporter=lcov > coverage.lcov && codecov",
     "standard": "standard index.js",
     "chromedriver": "npm install --save-dev chromedriver --chromedriver_cdnurl=http://cdn.npm.taobao.org/dist/chromedriver"
@@ -51,10 +51,5 @@
       "examples",
       "test"
     ]
-  },
-  "config": {
-    "ghooks": {
-      "pre-commit": "npm run standard"
-    }
   }
 }

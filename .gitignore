@@ -63,3 +63,4 @@ test/e2e/reports
 # vscode
 .vscode/
 
+test/e2e/screenshots/
