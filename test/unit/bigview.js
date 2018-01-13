@@ -1,6 +1,6 @@
 import test from 'ava'
-import { BigView } from '../../src'
-import Biglet from '../../src/biglet'
+import BigView from '../../src'
+import Biglet from 'biglet'
 import ctx from './fixtures/context'
 
 test('test BigView', async t => {

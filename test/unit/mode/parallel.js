@@ -1,5 +1,6 @@
 import test from 'ava'
-import { BigView, Biglet } from '../../../src'
+import BigView from '../../../src'
+import Biglet  from 'biglet'
 import ctx from '../fixtures/context'
 
 /**

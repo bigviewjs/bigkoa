@@ -1,5 +1,5 @@
 const path = require('path')
-const { Biglet } = require('../../../../src')
+const Biglet  = require('biglet')
 
 module.exports = class MainPagelet extends Biglet {
   constructor (...args) {

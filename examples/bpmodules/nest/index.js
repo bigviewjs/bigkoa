@@ -3,7 +3,7 @@
 const debug = require('debug')('bigview')
 const fs = require('fs')
 const MyBigView = require('./MyBigView')
-const Biglet = require('../../../packages/biglet')
+const Biglet  = require('biglet')
 
 module.exports = function (req, res) {
   var bigpipe = new MyBigView(req, res, 'nest/index', { title: "测试" })

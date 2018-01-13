@@ -1,5 +1,5 @@
 import test from 'ava'
-import Biglet from '../../src/Biglet'
+import Biglet from 'biglet'
 
 test('biglet custom payload', t => {
   const p1 = new Biglet()

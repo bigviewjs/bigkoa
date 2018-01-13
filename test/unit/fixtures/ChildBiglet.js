@@ -1,4 +1,4 @@
-import Biglet from '../../../src/Biglet'
+import Biglet from 'biglet'
 
 class ChildBiglet extends Biglet {
   constructor (...args) {

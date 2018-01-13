@@ -1,4 +1,4 @@
-import Biglet from '../../../src/Biglet'
+import Biglet from 'biglet'
 
 module.exports = class BigletDemo extends Biglet {
   constructor () {

@@ -1,6 +1,7 @@
 import test from 'ava'
 import sinon from 'sinon';
-import { BigView, Biglet } from '../../../src'
+import BigView from '../../../src'
+import Biglet  from 'biglet'
 import ModeInstanceMappings from '../../../src/mode'
 import ctx from '../fixtures/context'
 
