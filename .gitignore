@@ -64,3 +64,4 @@ test/e2e/reports
 .vscode/
 
 test/e2e/screenshots/
+coverage.lcov
