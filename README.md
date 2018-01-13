@@ -1,11 +1,13 @@
-# BigView （Node.js 4.x +）
+# BigKoa （Node.js 4.x +）
+
+> BigKoa = BigView + Koa
 
 [![Build](https://travis-ci.org/bigviewjs/bigkoa.svg?branch=master)](https://travis-ci.org/bigviewjs/bigkoa)
 [![codecov.io](https://codecov.io/github/bigviewjs/bigkoa/coverage.svg?branch=master)](https://codecov.io/github/bigviewjs/bigkoa?branch=master)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
 
-- bigview [![NPM version](https://img.shields.io/npm/v/bigview.svg?style=flat-square)](https://www.npmjs.com/package/bigview)
+- bigkoa [![NPM version](https://img.shields.io/npm/v/bigkoa.svg?style=flat-square)](https://www.npmjs.com/package/bigkoa)
 - biglet [![NPM version](https://img.shields.io/npm/v/biglet.svg?style=flat-square)](https://www.npmjs.com/package/biglet)
 - bigview-cli [![NPM version](https://img.shields.io/npm/v/bigview-cli.svg?style=flat-square)](https://www.npmjs.com/package/bigview-cli)
 - bigconsole [![NPM version](https://img.shields.io/npm/v/bigconsole.svg?style=flat-square)](https://www.npmjs.com/package/bigconsole)
