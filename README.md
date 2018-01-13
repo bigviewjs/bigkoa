@@ -1,10 +1,8 @@
-# BigKoa （Node.js 4.x +）
+# BigKoa （Node.js 8.x +）
 
 > BigKoa = BigView + Koa
 
 <a href="https://circleci.com/gh/bigviewjs/bigkoa/tree/master"><img src="https://img.shields.io/circleci/project/bigviewjs/bigkoa/master.svg" alt="Build Status"></a>
-
-[![Build](https://travis-ci.org/bigviewjs/bigkoa.svg?branch=master)](https://travis-ci.org/bigviewjs/bigkoa)
 [![codecov.io](https://codecov.io/github/bigviewjs/bigkoa/coverage.svg?branch=master)](https://codecov.io/github/bigviewjs/bigkoa?branch=master)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
