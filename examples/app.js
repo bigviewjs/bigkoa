@@ -1,13 +1,17 @@
 const Koa = require('koa')
-const app = new Koa()
+const path = require('path')
+const fs = require('fs')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
+const ejs = require('ejs')
+
+// this is important
+global.Promise = require('bluebird')
 
 const basic = require('./bpmodules/basic')
 
-var ejs = require('ejs');
-
+const app = new Koa()
 // error handler
 onerror(app)
 
@@ -16,11 +20,7 @@ app.use(bodyparser({
   enableTypes: ['json', 'form', 'text']
 }))
 app.use(logger())
-app.use(require('koa-static')(__dirname + '/public'))
-
-// app.use(views(__dirname + '/views', {
-//   extension: 'pug'
-// }))
+app.use(require('koa-static')(path.join(__dirname, '/public')))
 
 // logger
 app.use(async (ctx, next) => {
@@ -30,31 +30,33 @@ app.use(async (ctx, next) => {
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
 
-
 app.use(async (ctx, next) => {
-  const start = new Date()
+
+  // const start = new Date()
 
   ctx.render = function (tpl, data, cb) {
-    var fs = require('fs');
-    var read = require('fs').readFileSync;
-    var join = require('path').join;
+
+    const read = require('fs').readFileSync
 
     // /Users/youku/workspace/github/bigview-koa/examples/bpmodules/basic/p2/p2
-    if (!fs.existsSync(tpl + ".html") ){
-      console.log("tpl=" + tpl)
-      var str = read(tpl + '.html', 'utf8');
-    }else{
-      console.log("tpl2=" + tpl)
-      var str = read(tpl + '.html', 'utf8');
+    let str
+    if (!fs.existsSync(tpl + '.html')) {
+      throw new Error('cannot find file: "' + tpl + '.html"')
+    } else {
+      str = read(tpl + '.html', 'utf8')
     }
-
-    html = ejs.compile(str)(data);
-    cb(null, html)
+    let html = ''
+    let errmsg = false
+    try {
+      html = ejs.render(str, data)
+    } catch (err) {
+      errmsg = err
+      console.log(err)
+    }
+    cb(errmsg, html)
   }
   await next()
 })
-
-
 
 // ctx.render(tpl, data
 // app.get('/', require('./bpmodules/basic'));
@@ -91,6 +93,6 @@ app.use(basic)
 // error-handling
 app.on('error', (err, ctx) => {
   console.error('server error', err, ctx)
-});
+})
 
 module.exports = app

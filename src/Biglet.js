@@ -90,10 +90,8 @@ class Biglet {
    * @private
    */
   compile (tpl, data) {
-    let self = this
-
-    return new Promise(function (resolve, reject) {
-      self.owner.render(tpl, data, function (err, str) {
+    return new Promise((resolve, reject) => {
+      this.owner.render(tpl, data, function (err, str) {
         // str => Rendered HTML string
         if (err) {
           return reject(err)
@@ -116,7 +114,7 @@ class Biglet {
     }
 
     let self = this
-    return self.compile(self.root, self.data).then(function (str) {
+    return self.compile(self.tpl, self.data).then(function (str) {
       self.html = str
       self.write(str)
     })

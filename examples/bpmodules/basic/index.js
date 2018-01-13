@@ -1,42 +1,27 @@
-'use strict'
-
 const MyBigView = require('./MyBigView')
+const Main = require('./main')
+const Layout = require('./layout')
+const P1 = require('./p1')
+const P2 = require('./p2')
 
 module.exports = function (ctx, next) {
+  var bigpipe = new MyBigView(ctx)
 
-    var bigpipe = new MyBigView(ctx, {
-        // main: require('./main'),
-        // layout: require('./layout'),
-    })
+  // main and layout setter
+  bigpipe.setMain(new Main(ctx))
+  bigpipe.setLayout(new Layout(ctx))
 
-    // main and layout setter
-    bigpipe.main = require('./main')
-    bigpipe.layout = require('./layout')
+  bigpipe.mode = 'pipeline'
+  bigpipe.add(P1, ctx)
+  bigpipe.add(P2, ctx)
 
-    // setMain setLayout
-    // bigpipe.setLayout(require('./layout'))
-    // bigpipe.setMain(require('./main'))
+  if (ctx.query && ctx.query.bigview_mode) {
+    bigpipe.mode = ctx.query.bigview_mode
+  }
 
-    // bigpipe.mode = 'render'
-    bigpipe.add(require('./p1'))
-    bigpipe.add(require('./p2'))
+  if (ctx.cookies && ctx.cookies.bigview_mode) {
+    bigpipe.mode = ctx.cookies.bigview_mode
+  }
 
-    if (ctx.query && ctx.query.bigview_mode) {
-        bigpipe.mode = ctx.query.bigview_mode
-    }
-
-    // console.log(bigpipe.mode)
-
-    // 从this.cookies('bigview_mode') 其次
-    // debug("this.cookies = " + req.cookies)
-    if (ctx.cookies && ctx.cookies.bigview_mode) {
-        bigpipe.mode = ctx.cookies.bigview_mode
-    }
-
-    console.log(bigpipe.mode)
-
-    // bigpipe.preview('aaaa.html')
-    // bigpipe.isMock = true
-    //  bigpipe.previewFile = 'aaaa.html'
-    return bigpipe.start()
+  return bigpipe.start()
 }

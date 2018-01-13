@@ -1,31 +1,28 @@
-'use strict'
-
-const Pagelet = require('biglet')
 const path = require('path')
+const { Biglet } = require('../../../../src')
 
-module.exports = class MyPagelet extends Pagelet {
-  constructor () {
-      super()
-      this.root = __dirname
-      this.name = 'pagelet1'
-      this.data = {
-          is: "pagelet1测试",
-          po: {
-              name: this.name
-          }
+module.exports = class MainPagelet extends Biglet {
+  constructor (...args) {
+    super(...args)
+    this.root = __dirname
+    this.name = 'main biglet'
+    this.data = {
+      is: 'main biglet',
+      po: {
+        name: this.name
       }
-      this.domid = 'pagelet1'
-      this.location = 'pagelet1'
-      this.tpl = path.join(__dirname, 'tpl/index')
-      this.delay = 4000
+    }
+    this.domid = 'main'
+    this.location = 'main'
+    this.tpl = path.join(__dirname, './tpl/index')
+    this.delay = 1000
   }
 
-  fetch() {
+  fetch () {
     return this.sleep(this.delay)
   }
 
-  sleep(time) {
-    return new Promise((resolve)=> setTimeout(resolve, time))
+  sleep (time) {
+    return new Promise((resolve) => setTimeout(resolve, time))
   }
-
 }
