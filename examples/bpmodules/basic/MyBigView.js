@@ -1,4 +1,4 @@
-const { BigView } = require('../../../src')
+const BigView = require('../../../src')
 
 module.exports = class MyBigView extends BigView {
   before () {
