@@ -43,6 +43,9 @@
     "standard": "standard index.js",
     "chromedriver": "npm install --save-dev chromedriver --chromedriver_cdnurl=http://cdn.npm.taobao.org/dist/chromedriver"
   },
+  "engines": {
+    "node": ">= 8"
+  },
   "keywords": [],
   "author": "i5ting",
   "license": "MIT",
