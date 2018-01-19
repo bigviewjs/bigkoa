@@ -8,8 +8,8 @@ module.exports = function (ctx, next) {
   var bigpipe = new MyBigView(ctx)
 
   // main and layout setter
-  bigpipe.setMain(new Main(ctx))
-  bigpipe.setLayout(new Layout(ctx))
+  bigpipe.main = new Main(ctx)
+  bigpipe.layout = new Layout(ctx)
 
   bigpipe.mode = 'pipeline'
   bigpipe.add(P1, ctx)

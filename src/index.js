@@ -14,10 +14,10 @@ class BigView extends BigViewBase {
 
     this.debug = process.env.BIGVIEW_DEBUG || false
 
-    this.layout = options.layout
+    this._layout = options.layout
 
     // main pagelet
-    this.main = options.main
+    this._main = options.main
 
     // 存放add的pagelets，带有顺序和父子级别
     this.pagelets = []
@@ -31,12 +31,20 @@ class BigView extends BigViewBase {
     // 页面render的梳理里会有this.data.pagelets
   }
 
-  setMain (main) {
-    this.main = main
+  set layout (_layout) {
+    this._layout = _layout
   }
 
-  setLayout (layout) {
-    this.layout = layout
+  set main (_main) {
+    this._main = _main
+  }
+
+  get main () {
+    return this._main
+  }
+
+  get layout () {
+    return this._layout
   }
 
   _getPageletObj (Pagelet) {
@@ -47,6 +55,7 @@ class BigView extends BigViewBase {
     } else {
       pagelet = new Pagelet(this)
     }
+    pagelet.owner = this
     pagelet.dataStore = this.dataStore
 
     return pagelet
@@ -141,16 +150,11 @@ class BigView extends BigViewBase {
   }
 
   renderMain () {
-    let syncArray = []
-    let self = this
-
     debug('BigView renderLayoutAndMain')
-
     let mainPagelet = null
     if (this.main) {
       mainPagelet = this._getPageletObj(this.main)
-      syncArray.push(self.compile(mainPagelet.tpl, mainPagelet.data))
-      return Promise.all([mainPagelet._exec()])
+      return Promise.resolve(mainPagelet._exec())
     } else {
       return Promise.resolve(true)
     }
@@ -158,13 +162,14 @@ class BigView extends BigViewBase {
 
   renderLayout () {
     const self = this
+    const layoutPagelet = this._getPageletObj(this.layout)
     return new Promise(function (resolve, reject) {
-      self.ctx.render(self.layout.tpl, self.layout.data, function (err, html) {
+      self.ctx.render(layoutPagelet.tpl, layoutPagelet.data, function (err, html) {
         self.write(html, self.modeInstance.isLayoutWriteImmediately)
         if (err) {
-          return reject(err)
+          reject(err)
         }
-        return resolve(true)
+        resolve(html)
       })
     })
   }

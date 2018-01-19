@@ -12,7 +12,7 @@ const Promise = require('bluebird')
 
 module.exports = class RenderMode {
   constructor () {
-    this.mode = 'render';
+    this.mode = 'render'
     this.isLayoutWriteImmediately = false
     this.isPageletWriteImmediately = false
   }

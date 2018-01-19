@@ -40,7 +40,7 @@
     "test:e2e": "node test/e2e/runner.js",
     "test": "npm run test:unit && npm run test:e2e",
     "report-coverage": "nyc report --reporter=lcov > coverage.lcov && codecov",
-    "standard": "standard index.js",
+    "standard": "standard src/*.js src/mode/*.js",
     "chromedriver": "npm install --save-dev chromedriver --chromedriver_cdnurl=http://cdn.npm.taobao.org/dist/chromedriver"
   },
   "engines": {

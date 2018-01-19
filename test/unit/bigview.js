@@ -11,11 +11,13 @@ test('test BigView', async t => {
 
   const mainBiglet = new Biglet(bigView)
   mainBiglet.domid = 'main'
+  bigView.main = mainBiglet
 
-  bigView.setMain(mainBiglet)
-  bigView.setLayout({
-    tpl: './fixures/index.tpl.html'
-  })
+  const layoutBiglet = new Biglet(bigView)
+  layoutBiglet.domid = 'layout'
+  layoutBiglet.root = __dirname
+  layoutBiglet.tpl = './fixures/index.tpl.html'
+  bigView.layout = layoutBiglet
 
   const childBiglet = new Biglet(bigView)
   childBiglet.domid = 'child'
@@ -51,7 +53,7 @@ test('test BigView', async t => {
     t.is(err, true)
   })
 
-  bigView.setMain(false)
+  bigView.main = false
   bigView.renderMain().then(val => {
     t.is(val, true)
   })
