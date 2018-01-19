@@ -1,6 +1,6 @@
 import test from 'ava'
 import BigView from '../../../src'
-import Biglet  from 'biglet'
+import Biglet from 'biglet'
 import ctx from '../fixtures/context'
 
 /**
@@ -27,7 +27,6 @@ test('MODE parallel', t => {
   }
 
   p1.parse = function () {
-
     t.is(bigview.cache.length, 0)
 
     return Promise.reject(new Error('p1 reject'))
@@ -65,6 +64,6 @@ test('MODE parallel', t => {
   })
 })
 
-function sleep(time) {
+function sleep (time) {
   return new Promise((resolve) => setTimeout(resolve, time))
 }

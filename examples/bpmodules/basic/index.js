@@ -8,12 +8,12 @@ module.exports = function (ctx, next) {
   var bigpipe = new MyBigView(ctx)
 
   // main and layout setter
-  bigpipe.main = new Main(ctx)
-  bigpipe.layout = new Layout(ctx)
+  bigpipe.main = Main
+  bigpipe.layout = Layout
 
   bigpipe.mode = 'pipeline'
-  bigpipe.add(P1, ctx)
-  bigpipe.add(P2, ctx)
+  bigpipe.add(P1)
+  bigpipe.add(P2)
 
   if (ctx.query && ctx.query.bigview_mode) {
     bigpipe.mode = ctx.query.bigview_mode

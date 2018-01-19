@@ -49,5 +49,4 @@ test('test BigViewBase', t => {
   })
 
   t.pass()
-
 })

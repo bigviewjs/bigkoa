@@ -1,5 +1,4 @@
-const path = require('path')
-const Biglet  = require('biglet')
+const Biglet = require('biglet')
 
 module.exports = class MainPagelet extends Biglet {
   constructor (...args) {
@@ -13,8 +12,7 @@ module.exports = class MainPagelet extends Biglet {
       }
     }
     this.domid = 'main'
-    this.location = 'main'
-    this.tpl = path.join(__dirname, './tpl/index')
+    this.tpl = './tpl/index'
     this.delay = 1000
   }
 

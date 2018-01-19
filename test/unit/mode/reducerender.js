@@ -1,6 +1,6 @@
 import test from 'ava'
 import BigView from '../../../src'
-import Biglet  from 'biglet'
+import Biglet from 'biglet'
 import ctx from '../fixtures/context'
 
 /**
@@ -27,7 +27,6 @@ test('MODE reducerender', t => {
   }
 
   p1.parse = function () {
-
     t.is(bigview.cache.length, 0)
 
     return Promise.reject(new Error('p1 reject'))
@@ -52,7 +51,7 @@ test('MODE reducerender', t => {
 
   let startTime = new Date()
 
-  return bigview.getModeInstanceWith('reducerender').execute(pagelets).then(function(){
+  return bigview.getModeInstanceWith('reducerender').execute(pagelets).then(function () {
     let endTime = new Date()
 
     let cost = endTime.getTime() - startTime.getTime()

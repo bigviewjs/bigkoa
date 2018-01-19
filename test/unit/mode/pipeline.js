@@ -1,6 +1,6 @@
 import test from 'ava'
 import BigView from '../../../src'
-import Biglet  from 'biglet'
+import Biglet from 'biglet'
 import ctx from '../fixtures/context'
 
 /**
@@ -13,7 +13,6 @@ import ctx from '../fixtures/context'
  */
 
 test('MODE pipeline', t => {
-
   let bigview = new BigView(ctx, 'tpl', {})
   bigview.mode = 'pipeline'
 
@@ -47,7 +46,7 @@ test('MODE pipeline', t => {
 
   let pagelets = [p1, p2]
 
-  return bigview.getModeInstanceWith('pipeline').execute(pagelets).then(function(){
+  return bigview.getModeInstanceWith('pipeline').execute(pagelets).then(function () {
     // console.log(result)
     t.is(result[0], 'p2')
     t.is(result[1], 'p1')

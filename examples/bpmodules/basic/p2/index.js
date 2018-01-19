@@ -14,7 +14,7 @@ module.exports = class P2Pagelet extends Biglet {
       }
     }
     this.domid = 'pagelet2'
-    this.tpl = path.join(__dirname, './p2')
+    this.tpl = './p2'
     this.delay = 7000
   }
 

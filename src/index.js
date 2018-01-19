@@ -14,10 +14,10 @@ class BigView extends BigViewBase {
 
     this.debug = process.env.BIGVIEW_DEBUG || false
 
-    this._layout = options.layout
+    this.layout = options.layout
 
     // main pagelet
-    this._main = options.main
+    this.main = options.main
 
     // 存放add的pagelets，带有顺序和父子级别
     this.pagelets = []
@@ -31,12 +31,12 @@ class BigView extends BigViewBase {
     // 页面render的梳理里会有this.data.pagelets
   }
 
-  set layout (_layout) {
-    this._layout = _layout
+  set layout (layout) {
+    this._layout = layout
   }
 
-  set main (_main) {
-    this._main = _main
+  set main (main) {
+    this._main = main
   }
 
   get main () {
@@ -154,7 +154,8 @@ class BigView extends BigViewBase {
     let mainPagelet = null
     if (this.main) {
       mainPagelet = this._getPageletObj(this.main)
-      return Promise.resolve(mainPagelet._exec())
+      mainPagelet.data.pagelets = this.pagelets
+      return mainPagelet._exec()
     } else {
       return Promise.resolve(true)
     }
@@ -165,11 +166,12 @@ class BigView extends BigViewBase {
     const layoutPagelet = this._getPageletObj(this.layout)
     return new Promise(function (resolve, reject) {
       self.ctx.render(layoutPagelet.tpl, layoutPagelet.data, function (err, html) {
-        self.write(html, self.modeInstance.isLayoutWriteImmediately)
         if (err) {
           reject(err)
+        } else {
+          self.write(html, self.modeInstance.isLayoutWriteImmediately)
+          resolve(html)
         }
-        resolve(html)
       })
     })
   }

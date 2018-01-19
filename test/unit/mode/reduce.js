@@ -1,6 +1,6 @@
 import test from 'ava'
 import BigView from '../../../src'
-import Biglet  from 'biglet'
+import Biglet from 'biglet'
 import ctx from '../fixtures/context'
 
 /**
@@ -13,7 +13,6 @@ import ctx from '../fixtures/context'
  */
 
 test('MODE reduce', t => {
-
   let bigview = new BigView(ctx, 'tpl', {})
 
   let result = []
@@ -28,7 +27,6 @@ test('MODE reduce', t => {
   }
 
   p1.parse = function () {
-
     t.is(bigview.cache.length, 0)
 
     return Promise.reject(new Error('p1 reject'))
