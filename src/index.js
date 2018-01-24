@@ -1,11 +1,11 @@
 'use strict'
-
 const debug = require('debug')('bigview')
-
 const Promise = require('bluebird')
 
 const BigViewBase = require('./BigViewBase')
 const Utils = require('./utils')
+
+const { lurMapCache } = Utils
 const PROMISE_RESOLVE = Promise.resolve(true)
 
 class BigView extends BigViewBase {
@@ -29,6 +29,12 @@ class BigView extends BigViewBase {
 
     // 默认是pipeline并行模式，pagelets快的先渲染
     // 页面render的梳理里会有this.data.pagelets
+
+    // 限制缓存的个数
+    this.cacheLevel = options.cacheLevel
+    if (this.cacheLevel) {
+      lurMapCache.init(options.cacheLimits || 30, this.cacheLevel)
+    }
   }
 
   set layout (layout) {
@@ -130,22 +136,29 @@ class BigView extends BigViewBase {
     // set data pagelets and errorPagelet
     data.pagelets = self.pagelets || []
     data.errorPagelet = self.errorPagelet
+    return self.render(tpl, data)
+  }
 
-    return new Promise(function (resolve, reject) {
-      debug('renderLayout')
-      self.ctx.render(tpl, data, function (err, str) {
-        if (err) {
-          debug('renderLayout ' + str)
-          Utils.log(err)
-          return reject(err)
-        }
-        debug(str)
-        let html = str + Utils.ready(self.debug)
-        // 在pipeline模式下会直接写layout到浏览器
-        self.write(html, self.modeInstance.isLayoutWriteImmediately)
-        // html没用到
-        resolve(html)
-      })
+  render (tpl, data, cb) {
+    const cacheLevel2 = lurMapCache.get(tpl, 2)
+    if (cacheLevel2) {
+      return cb && cb(null, cacheLevel2)
+    }
+    const cacheLevel1 = lurMapCache.get(tpl)
+    if (cacheLevel1) {
+      tpl = cacheLevel1
+    }
+    this.ctx.render(tpl, data, (err, html) => {
+      if (err) {
+        return Utils.log(err)
+      }
+      // let html = str + Utils.ready(this.debug)
+      // 在pipeline模式下会直接写layout到浏览器
+      cb && cb(err, html)
+      if (cacheLevel1 || cacheLevel2) {
+        return
+      }
+      lurMapCache.set(tpl, html)
     })
   }
 
@@ -165,12 +178,28 @@ class BigView extends BigViewBase {
     const self = this
     const layoutPagelet = this._getPageletObj(this.layout)
     return new Promise(function (resolve, reject) {
-      self.ctx.render(layoutPagelet.tpl, layoutPagelet.data, function (err, html) {
+      let tpl = layoutPagelet.tpl
+      const cacheLevel2 = lurMapCache.get(tpl, 2)
+      if (cacheLevel2) {
+        debug('Use cache level 2')
+        self.write(cacheLevel2, self.modeInstance.isLayoutWriteImmediately)
+        return resolve(cacheLevel2)
+      }
+      const cacheLevel1 = lurMapCache.get(tpl, 1)
+      if (cacheLevel1) {
+        debug('Use cache level 1')
+        tpl = cacheLevel1
+      }
+      self.ctx.render(tpl, layoutPagelet.data, function (err, html) {
         if (err) {
           reject(err)
         } else {
           self.write(html, self.modeInstance.isLayoutWriteImmediately)
           resolve(html)
+          if (cacheLevel1 || cacheLevel2) {
+            return
+          }
+          lurMapCache.set(tpl, html)
         }
       })
     })
@@ -213,6 +242,13 @@ class BigView extends BigViewBase {
 
   after () {
     debug('default after')
+    // set level 1 cache
+    // this.pagelets.forEach((pagelet) => {
+    //   const tpl = pagelet.tpl
+    //   if (!lurMapCache.get(tpl)) {
+    //     lurMapCache.set(tpl)
+    //   }
+    // })
     return PROMISE_RESOLVE
   }
 
