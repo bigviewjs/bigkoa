@@ -56,7 +56,7 @@ class BigView extends BigViewBase {
   _getPageletObj (Pagelet) {
     let pagelet
 
-    if (Pagelet.domid && Pagelet.root) {
+    if (Pagelet.domid && Pagelet.tpl) {
       pagelet = Pagelet
     } else {
       pagelet = new Pagelet(this)
@@ -148,7 +148,7 @@ class BigView extends BigViewBase {
     if (cacheLevel1) {
       tpl = cacheLevel1
     }
-    this.ctx.render(tpl, data, (err, html) => {
+    this.ctx.render(tpl, data, function (err, html) {
       if (err) {
         return Utils.log(err)
       }
@@ -176,6 +176,9 @@ class BigView extends BigViewBase {
 
   renderLayout () {
     const self = this
+    if (!this.layout) {
+      return Promise.resolve('')
+    }
     const layoutPagelet = this._getPageletObj(this.layout)
     return new Promise(function (resolve, reject) {
       let tpl = layoutPagelet.tpl
