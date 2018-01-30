@@ -184,7 +184,7 @@ class BigView extends BigViewBase {
       let tpl = layoutPagelet.tpl
       const cacheLevel2 = lurMapCache.get(tpl, 2)
       if (cacheLevel2) {
-        debug('Use cache level 2')
+        console.log(cacheLevel2)
         self.write(cacheLevel2, self.modeInstance.isLayoutWriteImmediately)
         return resolve(cacheLevel2)
       }
@@ -232,12 +232,11 @@ class BigView extends BigViewBase {
     }
 
     debug('BigView end')
-
     let self = this
 
     // lifecycle self.after before res.end
     return self.after().then(function () {
-      self.res.end(Utils.end())
+      self.res.end(Utils.end() + (self.endTagString || '\n</body>\n</html>'))
       self.done = true
       return true
     })

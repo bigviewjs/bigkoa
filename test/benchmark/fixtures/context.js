@@ -21,7 +21,7 @@ module.exports = {
     }
   },
   render: function (tpl, data, fn) {
-    if(/\.nj$/.test(tpl)) {
+    if (/\.nj$/.test(tpl)) {
       return nunjucks.render(tpl, data, (err, html) => {
         fn(err, html)
       })

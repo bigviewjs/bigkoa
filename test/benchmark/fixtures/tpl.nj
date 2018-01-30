@@ -12,3 +12,5 @@
 {% else %}
 <p>The list is empty.</p>
 {% endif %}
+
+{% include "./tpl3.nj" %}
