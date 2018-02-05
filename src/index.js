@@ -236,7 +236,9 @@ class BigView extends BigViewBase {
 
     // lifecycle self.after before res.end
     return self.after().then(function () {
-      self.res.end(Utils.end() + (self.endTagString || '\n</body>\n</html>'))
+      if (self.layout) {
+        self.res.end(Utils.end() + (self.endTagString || '\n</body>\n</html>'))
+      }
       self.done = true
       return true
     })
