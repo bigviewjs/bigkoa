@@ -3,6 +3,7 @@
 const debug = require('debug')('bigview')
 const Promise = require('bluebird')
 const EventEmitter = require('events')
+const zlib = require('zlib')
 
 const ModeInstanceMappings = require('./mode')
 const Utils = require('./utils')
@@ -10,7 +11,7 @@ const Utils = require('./utils')
 const PROMISE_RESOLVE = Promise.resolve(true)
 
 module.exports = class BigViewBase extends EventEmitter {
-  constructor (ctx, layout, data) {
+  constructor (ctx, options) {
     super()
 
     this.mode = 'pipeline'
@@ -19,11 +20,29 @@ module.exports = class BigViewBase extends EventEmitter {
     this.ctx = ctx
     this.req = ctx.req
     this.res = ctx.res
+
     // 用于缓存res.write的内容
     this.cache = []
 
+    // 设置 gzip 压缩
+    this.gzip = !!options.gzip
+
     this.on('bigviewWrite', this.writeDataToBrowser.bind(this))
     this.on('pageletWrite', this.writeDataToBrowser.bind(this))
+  }
+
+  set gzip (gzip) {
+    if (gzip) {
+      // set header
+      this.ctx.set('Content-Encoding', 'gzip')
+      this.output = zlib.createGzip()
+      this.output.pipe(this.res)
+      this._gzip = gzip
+    }
+  }
+
+  get gzip () {
+    return this._gzip
   }
 
   set dataStore (obj) {
@@ -108,7 +127,14 @@ module.exports = class BigViewBase extends EventEmitter {
 
     if (text && text.length > 0) {
       // write to Browser;
-      this.res.write(text)
+      if (this.gzip) {
+        this.output.write(text, () => {
+          debug(`bigview gzip, text size is: ${text.length}`)
+          this.output.flush()
+        })
+      } else {
+        this.res.write(text)
+      }
     }
   }
 

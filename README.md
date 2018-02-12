@@ -64,7 +64,7 @@ biglet的生命周期
 
 ## Scaffold
 
-Install 
+Install
 
 ```
 $ npm i -g bigview-cli
@@ -152,12 +152,12 @@ views/nest/index.html是bp的布局文件
     <ul>
     <% pagelets.forEach(function(p){ %>
         <li><%= p.name %> | <%= p.selector %>
-        <% if (p.children.length) { %>  
-            <ul>  
-            <% p.children.forEach(function(sub){ %>  
+        <% if (p.children.length) { %>
+            <ul>
+            <% p.children.forEach(function(sub){ %>
                 <li> subPagelet = <%= sub.name %> | <%= sub.selector %>
-            <% }) %>  
-            </ul>  
+            <% }) %>
+            </ul>
         <% } %>
     <% }) %>
     </ul>
@@ -172,7 +172,7 @@ views/nest/index.html是bp的布局文件
         var bigpipe=new Bigpipe();
 
         <% pagelets.forEach(function(p){ %>
-        
+
         bigpipe.ready('<%= p.name %>',function(data){
             $("#<%= p.location %>").html(data);
         })
@@ -181,7 +181,7 @@ views/nest/index.html是bp的布局文件
         bigpipe.ready('pagelet2',function(data){
             $("#pagelet2").html(data);
         })
-    
+
     </script>
 </body>
 </html>
@@ -204,12 +204,12 @@ views/nest2/index.html是bp的布局文件
     <ul>
     <% pagelets.forEach(function(p){ %>
         <li><%= p.name %> | <%= p.selector %>
-        <% if (p.children.length) { %>  
-            <ul>  
-            <% p.children.forEach(function(sub){ %>  
+        <% if (p.children.length) { %>
+            <ul>
+            <% p.children.forEach(function(sub){ %>
                 <li> subPagelet = <%= sub.name %> | <%= sub.selector %>
-            <% }) %>  
-            </ul>  
+            <% }) %>
+            </ul>
         <% } %>
     <% }) %>
     </ul>
@@ -224,7 +224,7 @@ views/nest2/index.html是bp的布局文件
         var bigpipe=new Bigpipe();
 
         <% pagelets.forEach(function(p){ %>
-        
+
         bigpipe.ready('<%= p.name %>',function(data){
             $("#<%= p.location %>").html(data);
         })
@@ -308,7 +308,7 @@ module.exports = class MyBigView extends BigView {
 
     // console.log('afterRenderLayout')
     return Promise.resolve(true)
-  } 
+  }
 }
 ```
 
@@ -393,17 +393,17 @@ module.exports = function (req, res) {
         var bigpipe=new Bigpipe();
 
         <% pagelets.forEach(function(p){ %>
-        
+
         bigpipe.ready('<%= p.name %>',function(data){
             $("#<%= p.location %>").html(data);
         })
         <% }) %>
-        
+
         bigpipe.ready('<%= errorPagelet.name %>',function(data){
             $("#<%= errorPagelet.location %>").html(data);
         })
     </script>
-    <script src="/bigconsole.min.js"></script> 
+    <script src="/bigconsole.min.js"></script>
 </body>
 </html>
 ```
@@ -518,7 +518,7 @@ module.exports = class MyPagelet extends Pagelet {
 		this.delay = 2000
 	}
 
-  fetch () {        
+  fetch () {
     return new Promise(function(resolve, reject){
       setTimeout(function() {
         // self.owner.end()
@@ -600,14 +600,14 @@ app.get('/', require('./bpmodules/basic'));
 
 module.exports = function (pagelet) {
     console.log(pagelet.owner.query)
-    
+
     pagelet.delay = 1000
     return new Promise(function(resolve, reject){
       setTimeout(function() {
         // self.owner.end()
         resolve(pagelet.data)
       }, pagelet.delay)
-    }) 
+    })
 }
 ```
 
@@ -632,7 +632,7 @@ module.exports = class MyPagelet extends Pagelet {
 		this.delay = 2000
 	}
 
-    fetch () {        
+    fetch () {
         return new Promise(function(resolve, reject){
             setTimeout(function() {
                 // self.owner.end()
@@ -652,7 +652,7 @@ module.exports = class MyPagelet extends Pagelet {
                     console.log(err)
                     reject(err)
                 }
-                
+
                 resolve(str)
             })
         })
@@ -725,12 +725,12 @@ pagelet1.mock = true
 
 pagelet1.data = {
   xxx: yyy
-} 
+}
 
 pagelet1.test()
 ```
 
-or 
+or
 
 ```
 $ pt bpmoduless/p1 url
@@ -738,6 +738,14 @@ $ pt bpmoduless/p1 aaaa.json
 ```
 
 自动跑测试，并给出测试结果
+
+## 支持 gzip 压缩
+
+enable gzip:
+
+```javascript
+const bigkoa = new BigKoa({ gzip: true })
+```
 
 
 ## More
@@ -769,7 +777,7 @@ pagelet能复用么？
 异步加载显示模块的方式：BigPipe方式降低模块开发成本、管理成本
 
 ```
-var FM=function(a,b,c){function bN(b,c){a.clear&&(bN=a.clear)(b,c)}function bM(b,c,d){a.start&&(bM=a.start)(b,c,d)}function bL(a){return a===null?"":Object.prototype.toString.call(a).slice(8,-1).toLowerCase()}function bK(){bv(function(){bH();for(var a in J){if(I[a]){bB(P,I[a]);delete 
+var FM=function(a,b,c){function bN(b,c){a.clear&&(bN=a.clear)(b,c)}function bM(b,c,d){a.start&&(bM=a.start)(b,c,d)}function bL(a){return a===null?"":Object.prototype.toString.call(a).slice(8,-1).toLowerCase()}function bK(){bv(function(){bH();for(var a in J){if(I[a]){bB(P,I[a]);delete
 
 
 <script>FM.view({"ns":"pl.common.webim","domid":"pl_common_webim","css":["style/css/module/list/comb_webim.css?version=f25a07f3fbb17183"],"js":["webim_prime/js/common/all.js?version=8fde40d2c1ecd58b"]})</script>
@@ -807,7 +815,7 @@ BigPipe的三种模式：
 - 管线模式：即并行模式，并行请求，并即时渲染。(已实现)
 - 并行模式：并行请求，但在获得所有请求的结果后再渲染。
 
-## 参考 
+## 参考
 
 http://velocity.oreilly.com.cn/2011/ppts/WK_velocity.pdf
 
