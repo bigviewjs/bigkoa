@@ -17,6 +17,14 @@ test('test utils.end()', t => {
   t.is(str2, '<script charset="utf-8">bigview.end({"a":1})</script>')
 })
 
+test('test utils.lurMapCache', t => {
+  const lurMapCache = utils.lurMapCache
+  lurMapCache.init(10)
+  lurMapCache.set('a', 1)
+  t.is(lurMapCache.get('a'), 1)
+  lurMapCache.delete('a')
+})
+
 test('test utils.log()', t => {
   utils.log()
   utils.log()

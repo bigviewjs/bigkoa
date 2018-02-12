@@ -19,8 +19,6 @@ module.exports = class BigViewBase extends EventEmitter {
     this.ctx = ctx
     this.req = ctx.req
     this.res = ctx.res
-    this.render = ctx.render
-
     // 用于缓存res.write的内容
     this.cache = []
 
@@ -82,6 +80,14 @@ module.exports = class BigViewBase extends EventEmitter {
   }
 
   /**
+   * render the template
+   * @api public
+   */
+  render (...args) {
+    return this.ctx.render(...args)
+  }
+
+  /**
    * Write bigview data to Browser.
    *
    * @api public;
@@ -91,8 +97,6 @@ module.exports = class BigViewBase extends EventEmitter {
       throw new Error('Write empty data to Browser.')
     }
 
-    debug('Write data to Browser ' + text)
-
     // 是否立即写入，如果不立即写入，放到this.cache里
     if (!isWriteImmediately || this.modeInstance.isLayoutWriteImmediately === false) {
       return this.cache.push(text)
@@ -101,9 +105,6 @@ module.exports = class BigViewBase extends EventEmitter {
     if (this.done) {
       throw new Error(' Write data to Browser after bigview.dong = true.')
     }
-
-    debug('BigView final data = ' + text)
-    debug(text)
 
     if (text && text.length > 0) {
       // write to Browser;
