@@ -162,6 +162,10 @@ module.exports = class BigViewBase extends EventEmitter {
     return PROMISE_RESOLVE
   }
 
+  afterRenderMain () {
+    return PROMISE_RESOLVE
+  }
+
   // event wrapper
   write (html, isWriteImmediately) {
     // 不生效，某种模式下会有问题
