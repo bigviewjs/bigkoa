@@ -1,7 +1,7 @@
 module.exports = {
   'start': function (client) {
     client.url('http://localhost:8080/')
-      .verify.visible('#main')
+      // .verify.visible('#main')
       .verify.containsText('h1', 'BigKoa')
   },
 

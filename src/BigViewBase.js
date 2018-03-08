@@ -16,9 +16,8 @@ module.exports = class BigViewBase extends EventEmitter {
 
     this.mode = 'pipeline'
 
-    // 缓存express的req和res
     this.ctx = ctx
-    this.req = ctx.req
+    this.req = ctx.request || ctx.req
     this.res = ctx.res
 
     // 用于缓存res.write的内容
@@ -26,7 +25,6 @@ module.exports = class BigViewBase extends EventEmitter {
 
     // 设置 gzip 压缩
     this.gzip = !!options.gzip
-
     this.on('bigviewWrite', this.writeDataToBrowser.bind(this))
     this.on('pageletWrite', this.writeDataToBrowser.bind(this))
   }
@@ -92,7 +90,7 @@ module.exports = class BigViewBase extends EventEmitter {
   getModeInstanceWith (mode) {
     debug('biglet (children) mode = ' + mode)
     if (!ModeInstanceMappings[mode]) {
-      Utils.log('biglet (children) .mode only support [ pipeline | parallel | reduce | reducerender | render ]')
+      Utils.log('biglet (children) .mode only support [ pipeline | parallel | reduce | reducerender | render | renderdata]')
       return
     }
     return new ModeInstanceMappings[mode]()
@@ -124,7 +122,6 @@ module.exports = class BigViewBase extends EventEmitter {
     if (this.done) {
       throw new Error(' Write data to Browser after bigview.dong = true.')
     }
-
     if (text && text.length > 0) {
       // write to Browser;
       if (this.gzip) {
