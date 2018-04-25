@@ -137,7 +137,7 @@ module.exports = class BigViewBase extends EventEmitter {
 
   processError (err) {
     return new Promise(function (resolve, reject) {
-      debug(err)
+      console.log(err)
       resolve(true)
     })
   }

@@ -27,8 +27,10 @@ module.exports = class PiplineMode {
     let self = this
 
     pagelets.forEach(function (_pagelet) {
-      _pagelet.isPageletWriteImmediately = self.isPageletWriteImmediately
-      q.push(_pagelet._exec())
+      if (_pagelet) {
+        _pagelet.isPageletWriteImmediately = self.isPageletWriteImmediately
+        q.push(_pagelet._exec())
+      }
     })
 
     return Promise.all(q)

@@ -21,8 +21,10 @@ module.exports = class RenderMode {
     let q = []
     for (var i in pagelets) {
       let _pagelet = pagelets[i]
-      _pagelet.isPageletWriteImmediately = this.isPageletWriteImmediately
-      q.push(_pagelet._exec(true, 'json'))
+      if (_pagelet) {
+        _pagelet.isPageletWriteImmediately = this.isPageletWriteImmediately
+        q.push(_pagelet._exec(true, 'json'))
+      }
     }
     return Promise.all(q)
   }
