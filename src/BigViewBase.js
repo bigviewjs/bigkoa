@@ -120,18 +120,20 @@ module.exports = class BigViewBase extends EventEmitter {
     }
 
     if (this.done) {
-      throw new Error(' Write data to Browser after bigview.dong = true.')
+      console.log(' Write data to Browser after bigview.dong = true.')
+      return
     }
     if (text && text.length > 0) {
       // write to Browser;
-      if (this.gzip) {
-        this.output.write(text, () => {
-          debug(`bigview gzip, text size is: ${text.length}`)
-          this.output.flush()
-        })
-      } else {
-        this.res.write(text)
-      }
+      this.res.write(text)
+      // if (this.gzip) {
+      //   this.output.write(text, () => {
+      //     debug(`bigview gzip, text size is: ${text.length}`)
+      //     this.output.flush()
+      //   })
+      // } else {
+      //   this.res.write(text)
+      // }
     }
   }
 

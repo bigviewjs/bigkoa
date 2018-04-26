@@ -91,11 +91,7 @@ class BigView extends BigViewBase {
     this.pagelets = [this.errorPagelet]
 
     // start with render error pagelet
-    this.renderPagelets()
-            .then(this.end.bind(this))
-            .catch(this.processError.bind(this))
-
-    return Promise.reject(new Error('interrupt， no need to continue!'))
+    return PROMISE_RESOLVE
   }
 
   _checkPageletExist (domid) {
@@ -291,12 +287,12 @@ class BigView extends BigViewBase {
     }
 
     debug('BigView end')
-    let self = this
+    const self = this
 
     // lifecycle self.after before res.end
-    return self.after().then(function () {
-      if (self.layout) {
-        self.res.end(Utils.end() + (self.endTagString || '\n</body>\n</html>'))
+    return this.after().then(() => {
+      if (this.layout) {
+        this.res.end(Utils.end() + (this.endTagString || '\n</body>\n</html>'))
       }
       self.done = true
       return true
