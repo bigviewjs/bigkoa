@@ -6,6 +6,7 @@ const BigViewBase = require('./BigViewBase')
 const Utils = require('./utils')
 
 const { lurMapCache } = Utils
+const pageletsInstances = {}
 const PROMISE_RESOLVE = Promise.resolve(true)
 
 class BigView extends BigViewBase {
@@ -29,7 +30,6 @@ class BigView extends BigViewBase {
 
     // 默认是pipeline并行模式，pagelets快的先渲染
     // 页面render的梳理里会有this.data.pagelets
-
     // 限制缓存的个数
     this.cacheLevel = options.cacheLevel
     if (this.cacheLevel) {
@@ -60,9 +60,12 @@ class BigView extends BigViewBase {
     let pagelet
 
     if (Pagelet.domid && Pagelet.tpl) {
-      pagelet = Pagelet
+      pagelet = pageletsInstances[pagelet.domid] || Pagelet
     } else {
       pagelet = new Pagelet(this)
+      if (pagelet.domid) {
+        pageletsInstances[pagelet.domid] = pagelet
+      }
     }
     pagelet.owner = this
     pagelet.dataStore = this.dataStore
