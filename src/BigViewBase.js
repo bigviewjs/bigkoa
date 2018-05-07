@@ -23,6 +23,8 @@ module.exports = class BigViewBase extends EventEmitter {
     // 用于缓存res.write的内容
     this.cache = []
 
+    this.json = {}
+
     // 设置 gzip 压缩
     this.gzip = !!options.gzip
     this.on('bigviewWrite', this.writeDataToBrowser.bind(this))
@@ -109,13 +111,15 @@ module.exports = class BigViewBase extends EventEmitter {
    *
    * @api public;
    */
-  writeDataToBrowser (text, isWriteImmediately) {
-    if (!text) {
-      throw new Error('Write empty data to Browser.')
-    }
+  writeDataToBrowser (pagelet) {
+    const text = pagelet.view
+    if (!text) return
 
     // 是否立即写入，如果不立即写入，放到this.cache里
-    if (!isWriteImmediately || this.modeInstance.isLayoutWriteImmediately === false) {
+    if (!pagelet.isWriteImmediately || this.modeInstance.isLayoutWriteImmediately === false) {
+      if (pagelet.domid) {
+        this.json[pagelet.domid] = pagelet._payload
+      }
       return this.cache.push(text)
     }
 
@@ -126,14 +130,6 @@ module.exports = class BigViewBase extends EventEmitter {
     if (text && text.length > 0) {
       // write to Browser;
       this.res.write(text)
-      // if (this.gzip) {
-      //   this.output.write(text, () => {
-      //     debug(`bigview gzip, text size is: ${text.length}`)
-      //     this.output.flush()
-      //   })
-      // } else {
-      //   this.res.write(text)
-      // }
     }
   }
 
@@ -168,6 +164,6 @@ module.exports = class BigViewBase extends EventEmitter {
   // event wrapper
   write (html, isWriteImmediately) {
     // 不生效，某种模式下会有问题
-    this.emit('bigviewWrite', html, isWriteImmediately)
+    this.emit('bigviewWrite', { view: html, isWriteImmediately })
   }
 }
