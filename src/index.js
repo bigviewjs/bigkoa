@@ -205,18 +205,22 @@ class BigView extends BigViewBase {
     if (cacheLevel1) {
       tpl = cacheLevel1
     }
-    this.ctx.render(tpl, data, function (err, html) {
-      if (err) {
-        return Utils.log(err)
-      }
-      // let html = str + Utils.ready(this.debug)
-      // 在pipeline模式下会直接写layout到浏览器
-      cb && cb(err, html)
-      if (cacheLevel1 || cacheLevel2) {
-        return
-      }
-      lurMapCache.set(tpl, html)
-    })
+    if (tpl && data) {
+      this.ctx.render(tpl, data, function (err, html) {
+        if (err) {
+          return Utils.log(err)
+        }
+        // let html = str + Utils.ready(this.debug)
+        // 在pipeline模式下会直接写layout到浏览器
+        cb && cb(err, html)
+        // if (cacheLevel1 || cacheLevel2) {
+        //   return
+        // }
+        // lurMapCache.set(tpl, html)
+      })
+    } else {
+      cb && cb(null, '')
+    }
   }
 
   renderMain (isWrite = true) {
@@ -254,10 +258,10 @@ class BigView extends BigViewBase {
         } else {
           self.write(html, self.modeInstance.isLayoutWriteImmediately)
           resolve(html)
-          if (cacheLevel1 || cacheLevel2) {
-            return
-          }
-          lurMapCache.set(tpl, html)
+          // if (cacheLevel1 || cacheLevel2) {
+          //   return
+          // }
+          // lurMapCache.set(tpl, html)
         }
       })
     })
