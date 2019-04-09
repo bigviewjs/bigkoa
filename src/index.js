@@ -207,9 +207,7 @@ class BigView extends BigViewBase {
     }
     if (tpl && data) {
       this.ctx.render(tpl, data, function (err, html) {
-        if (err) {
-          return Utils.log(err)
-        }
+        err && Utils.log(err)
         // let html = str + Utils.ready(this.debug)
         // 在pipeline模式下会直接写layout到浏览器
         cb && cb(err, html)
