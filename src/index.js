@@ -160,7 +160,6 @@ class BigView extends BigViewBase {
                 .timeout(this.timeout)
                 .catch(Promise.TimeoutError, this.renderPageletstimeoutFn.bind(this))
             .catch(this.processError.bind(this))
-            .done()
   }
 
   _startSinglePagelet () {
